@@ -5,58 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habitica Heat Map</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
 </head>
 <body>
-    <div class="header">
-        <h1>Habitica Heat Map Experiment</h1>
-    <center>
-        <button id="in"><img src="img/zoom_out_24dp_FILL0_wght400_GRAD0_opsz24.png"></button>
-        <button id="out"><img src="img/zoom_in_24dp_FILL0_wght400_GRAD0_opsz24.png"></button>
-    </center>
-    </div>
-    <div class="weekcontainer">
-        <div class="day">Monday</div>
-        <div class="day">Tuesday</div>
-        <div class="day">Wednesday</div>
-        <div class="day">Thursday</div>
-        <div class="day">Friday</div>
-        <div class="day">Saturday</div>
-        <div class="day">Sunday</div>
-    </div>
+    <div class="headerContainer">
+        <p id="headerSettings">settings</p>
+        <div class="header" id="header">
+                <div class="viewSelect">
+                <p>select<br>view</p>
+                <div class="viewDropDown">
+                    <p id="1month">1 month</p>
+                    <p id="3month">3 month</p>
+                    <p id="6month">6 month</p>
+                    <p id="9month">9 month</p>
+                    <p id="year">year</p>
+                    <p id="ytd">ytd</p>
+                    <!--
+                    NEED TO FIND HOW TO SAVE USER'S FIRST VISIT
+                    <p id="alltime">all time</p>
+                    -->
+                </div>
+            </div>
+            <div class="monthSelect">
+                <p>select month</p>
+                <div class="monthDropDown">
+                    <p id="jan">january</p>
+                    <p id="feb">february</p>
+                    <p id="march">march</p>
+                    <p id="apr">april</p>
+                    <p id="may">may</p>
+                    <p id="jun">june</p>
+                    <p id="jul">july</p>
+                    <p id="aug">august</p>
+                    <p id="sep">september</p>
+                    <p id="oct">october</p>
+                    <p id="nov">november</p>
+                    <p id="dec">december</p>                
+                </div>
+            </div>
 
+        </div>
+    </div>
     <div class="dayContainer">
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
-        <div class="day"></div>
     </div>
-
     <script src="heatmap.js"> </script>
 </body>
 </html>
