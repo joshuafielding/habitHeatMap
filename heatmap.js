@@ -19,6 +19,16 @@ let currentView;
 
 //loads the current month 
 window.onload = function(){
+    //change feb to be 29 if it's a leap year.
+    currentYear = currentDate.getFullYear()
+    if((currentYear % 4) == 0){
+        months[1] = "29"
+    }
+    else{
+        months[1] = "28"
+    }
+
+    
     for(let i = 0; i < months[currentMonth]; i++){
         let div = document.createElement("div");
         div.className = "day";
@@ -30,20 +40,15 @@ window.onload = function(){
 }
 
 //function for closing / opening settings
-let open = true;
-document.getElementById("headerSettings").onclick = function(){
-    if(open === true){   
-        document.getElementById("header").style.display = "none";
-        document.getElementById("headerSettings").style.backgroundColor = "#1e1e1e"
-        document.getElementById("headerSettings").style.color = "#363636"
-        open = false;
-    }
-    else{
-        document.getElementById("header").style.display = "flex";
-        document.getElementById("headerSettings").style.backgroundColor = "rgba(103, 250, 186, 0.593)"
-        document.getElementById("headerSettings").style.color = "whitesmoke"
-        open = true;
-    }
+document.getElementById("headerSettings").onclick = function() {
+    document.getElementById("header").style.display = "none";
+    document.getElementById("gear").style.display = "flex";
+    document.getElementById("gear").style.width = "1.5em";
+}
+
+document.getElementById("gear").onclick = function() {
+    document.getElementById("header").style.display = "flex";
+    document.getElementById("gear").style.display = "none";
 }
 
 //function for creating the days
@@ -51,24 +56,24 @@ function createDays(numDays){
     let div = document.createElement("div");
     div.className = "day";
     if(numDays >= 365){
-        div.style.height = "0.8em";
-        div.style.width = "0.8em";
+        div.style.height = "0.7em";
+        div.style.width = "0.7em";
     }
     else if(numDays >= 265){
-        div.style.height = "0.9em";
-        div.style.width = "0.9em";
-    }
-    else if(numDays >= 175){
         div.style.height = "1em";
         div.style.width = "1em";
     }
+    else if(numDays >= 175){
+        div.style.height = "1.5em";
+        div.style.width = "1.5em";
+    }
     else if(numDays >= 85){
-        div.style.height = "1.7em";
-        div.style.width = "1.7em";
+        div.style.height = "2.6em";
+        div.style.width = "2.6em";
     }
     else{
-        div.style.height = "5.2em";
-        div.style.width = "5.2em";
+        div.style.height = "5em";
+        div.style.width = "5em";
     }
     container.appendChild(div);
 }
