@@ -3,52 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habitica Heat Map</title>
+    <title>Habitica Heatmap</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <script defer src="habiticaHeatMap.js"></script>
 </head>
 <body>
-    <div class="headerContainer">
-        <img id="gear" src="img/settings.png">
-        <div class="header" id="header">
-            <div id="headerSettings">close <br> settings</div>
-                <div class="viewSelect">
-                <p>select<br>view</p>
-                <div class="viewDropDown">
-                    <p id="1month">1 month</p>
-                    <p id="3month">3 month</p>
-                    <p id="6month">6 month</p>
-                    <p id="9month">9 month</p>
-                    <p id="year">year</p>
-                    <p id="ytd">ytd</p>
-                    <!--
-                    NEED TO FIND HOW TO SAVE USER'S FIRST VISIT
-                    <p id="alltime">all time</p>
-                    -->
-                </div>
-            </div>
-            <div class="monthSelect">
-                <p>select month</p>
-                <div class="monthDropDown">
-                    <p id="jan">january</p>
-                    <p id="feb">february</p>
-                    <p id="march">march</p>
-                    <p id="apr">april</p>
-                    <p id="may">may</p>
-                    <p id="jun">june</p>
-                    <p id="jul">july</p>
-                    <p id="aug">august</p>
-                    <p id="sep">september</p>
-                    <p id="oct">october</p>
-                    <p id="nov">november</p>
-                    <p id="dec">december</p>                
-                </div>
-            </div>
+    <!--settings header-->
+    <div class="settings">
+        <img src="images/back.png" id="prev" alt="Previous month icon">
+        <img src="images/next.png" id="next" alt="Next month icon">
+        <img src="images/settings.png" id="settings" alt="Settings icon">
+    </div>
 
+    <!--Pop up menu for settings-->
+    <div class="settingsPopUp" id="settingsPopUp">
+        <button type="button" id="close">X</button>
+        <h3>Settings:</h3>
+        
+        <p id="changeColors">Change colors</p>
+        <!--dropdown for change colors-->
+        <div class="colorSettings">
+            <p style="align-self: flex-start;">(Insert hex values | Example: #ff0000)</p>
+            <p>Background color: <input><button id="backgroundSubmit">✔️</button></p>
+            <p>Default box color: <input><button id="defaultBoxSubmit">✔️</button></p>
+            <p>100% box color: <input><button id="100BoxSubmit">✔️</button></p>
+            <p>75% box color: <input><button id="75BoxSubmit">✔️</button></p>
+            <p>50% box color: <input><button id="50BoxSubmit">✔️</button></p>
+            <p>25% box color: <input><button id="25BoxSubmit">✔️</button></p>
+            <p>0% box color: <input><button id="0BoxSubmit">✔️</button></p>
         </div>
+        
+        <p id="changeView">Change view</p>
+        <!--dropdown for change view-->
+        <div class="viewSettings">
+            <input type="radio" id="1month" name="viewSettings"> <label for="1month" checked>1 month view</label><br>
+            <input type="radio" id="3month" name="viewSettings"> <label for="3month">3 month view</label><br>
+            <input type="radio" id="6month" name="viewSettings"> <label for="6month">6 month view</label><br>
+            <input type="radio" id="9month" name="viewSettings"> <label for="9month">9 month view</label><br>
+            <input type="radio" id="year" name="viewSettings"> <label for="year">Year view</label><br>
+            <input type="radio" id="ytd" name="viewSettings"> <label for="ytd">Year-to-date view</label><br>
+        </div>
+
+        <p id="changeFormat">Change date format</p>
+        <!--dropdown menu for change format-->
+        <div class="formatSettings">
+            <input type="radio" id="dmy" name="formatSettings" checked> <label for="dmy">Day/Month/Year</label><br>
+            <input type="radio" id="mdy" name="formatSettings"> <label for="dmy">Month/Day/Year</label>
+        </div>
+        <!--MAKE DROPDOWN MENU FOR HELP-->
+        <p>Help</p>
+
+        <!--small version text-->
+        <a href="https://github.com/esrexni/habiticaHeatMap" class="info">version 0.1 - JoshF</a>
     </div>
-    <div class="dayContainer">
+
+    <!--Days are stored in this container-->
+    <div class="dayContainer"></div>
+    <!--Days popup menu-->
+    <div class="dayPopUp" id="dayPopUp">
+        <button type="button" id="closeDay">X</button>
     </div>
-    <script src="heatmap.js"> </script>
+
 </body>
 </html>

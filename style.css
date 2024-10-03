@@ -1,133 +1,264 @@
-@font-face {
-    font-family: merriweather, 'Times New Roman', Times, serif;
-    src: url(font/Merriweather-Regular.ttf);
+/*reset padding and margins for uniform look across browsers*/
+*{
+    margin: 0px;
+    padding: 0px;
 }
 
-body {
-    background-color: #1e1e1e;
-    color: whitesmoke;
-    font-family: merriweather;
-    box-sizing: border-box;
-}
-
-#header{
+.settings{
+    /*settings position*/
     display: flex;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    gap: 1vh;
+    justify-content: flex-end;
+    
+    /*settings visuals*/
+    height: 50px;
+    padding: 20px;
 }
 
-#gear {
-    display: none;
+.settings img{
+    cursor: pointer; /*make cursor pointer only for the icons in settings*/
+    transition: transform 0.2s; /*addes the animation to icons*/
 }
 
-#headerSettings {
-    font-size: 2vh;
-    width: 9vh;
-    height: 9vh;
-    background-color: rgba(103, 250, 186, 0.593);
-    border-radius: 15px;
-    text-align: center;
-    align-content: center;
-    color: whitesmoke;
-    font-family: merriweather;
+/*animation for settings*/
+.settings img:active{
+    transform: scale(0.90);
 }
 
-#headerSettings:hover {
-    background-color: rgb(126, 225, 182);
-    cursor: pointer;
-}
-
-.viewSelect {
-    font-size: 2vh;
-    width: 9vh;
-    height: 9vh;
-    background-color: rgba(103, 250, 186, 0.593);
-    border-radius: 15px;
-    text-align: center;
-    align-content: center;
-}
-
-.viewDropDown {
-    width: 9vh;
-    border-radius: 15px;
-    display: none;
-    top: 100%;
-    background-color: rgb(126, 225, 182);
-    box-shadow: 0px 9px 10px black;
-}
-
-.viewSelect:hover .viewDropDown {
-    display: block;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    cursor: pointer;
-    padding-bottom: 0.1vh;
-    padding-top: 0.1vh;
-}
-
-.viewSelect:hover {
-    background-color: rgb(126, 225, 182);
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    cursor: pointer;
-}
-
-.monthSelect {
-    font-size: 2vh;
-    width: 9vh;
-    height: 9vh;
-    background-color: rgba(103, 250, 186, 0.593);
-    border-radius: 15px;
-    text-align: center;
-    align-content: center;
-}
-
-.monthDropDown {
-    width: 9vh;
-    border-radius: 15px;
-    display: none;
-    top: 100%;
-    background-color: rgb(126, 225, 182);
-    box-shadow: 0px 9px 10px black;
-}
-
-.monthSelect:hover .monthDropDown {
-    display: block;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    cursor: pointer;
-    padding-bottom: 0.1vh;
-    padding-top: 0.1vh;
-}
-
-.monthSelect:hover {
-    background-color: rgb(126, 225, 182);
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    cursor: pointer;
-}
-
-.dayContainer {
-    position: relative;
-    z-index: -1;
+.settingsPopUp{
+    /*settingsPopUp positioning*/
     display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /*settingsPopUp visuals*/
+    font-size: 25px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 3px;
+    aspect-ratio: 1/1;
+    width: 400px;
+    visibility: hidden;
+}
+
+/*formatting the text in settingsPopUp*/
+.settingsPopUp h3{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.settingsPopUp p{
+    margin-left: 10px;
+    cursor: pointer; 
+}
+
+.info{
+    position: absolute;
+    top: 95%;
+    align-self: flex-end;
+    justify-self: flex-end;
+    font-size: 15px
+}
+
+/*used to close the settings*/
+.settingsPopUp button{
+    /*button positioning*/
+    position: absolute;
+    align-self: flex-end;
+    margin: 10px;
+
+    /*button visuals*/
+    background-color: whitesmoke;
+    aspect-ratio: 1/1;
+    width: 30px;
+    border: 1px solid black;
+}
+
+/*"animation" for close button*/
+.settingsPopUp button:hover{
+    background-color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+/*dropdown menus in settingsPopUp*/
+.colorSettings{
+    display: none;
+    max-width: fit-content;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 18px;
+}
+
+.colorSettings button{
+    font-size: 10px;
+    max-height: 20px;
+    margin: 0px;
+    margin-left: 5px;
+}
+
+.colorSettings button:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+.viewSettings{
+    display: none;
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.viewSettings button{
+    font-size: 10px;
+    max-height: 20px;
+    margin: 0px;
+    margin-left: 5px;
+}
+
+.viewSettings button:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+.formatSettings{
+    display: none;
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.formatSettings button{
+    font-size: 10px;
+    max-height: 20px;
+    margin: 0px;
+    margin-left: 5px;
+}
+
+.formatSettings button:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+
+.dayContainer{
+    /*dayContainer positions the day boxes*/
+    display: flex;
+    width: 100%;
     flex-wrap: wrap;
     align-items: center;
-    gap: 2vh;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    margin-left: 15vh;
-    margin-right: 15vh;
+    justify-content: left; 
+    padding-top: 0px;
+    margin-top: 0px;
+    z-index: -5;
 }
 
-.day {
-    width: 5em;
-    height: 5em;
-    border-radius: 2vh;
-    background-color: rgb(103, 250, 186);
+.day{
+    /*what the future days / default days look like*/
+    flex: 0 0 12%;  /* this specifically only allows 7 days per row, maybe change flex  */
+    aspect-ratio: 1 / 1; /* height and width are always the same*/
+    height: 100%; 
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(0, 0, 0);
+    margin: 0.5em;
+    cursor: pointer;
+}
+
+.day.hundred{
+    background-color: #00ff00;
+}
+
+.day.seventyfive{
+    background-color: #b0c800;
+}
+
+.day.fifty{
+    background-color: #d79f00;
+}
+
+.day.twentyfive{
+    background-color: #f46900;
+}
+
+.day.zero{
+    background-color: #ff0000;
+}
+
+/*day Pop Up menu*/
+.dayPopUp{
+    /*dayPopUp positioning*/
     display: flex;
-    padding: 1vh;
-    font-size: 3vh;
-    color: rgb(30, 30, 30);
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /*dayPopUp visuals*/
+    font-size: 25px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 3px;
+    aspect-ratio: 1/1;
+    width: 400px;
+    visibility: hidden;
+}
+
+/*formatting the text in dayPopUp*/
+.dayPopUp h3{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.dayPopUp p{
+    margin-left: 10px;
+    cursor: pointer; 
+}
+
+/*used to close the day popup*/
+.dayPopUp button{
+    /*button positioning*/
+    position: absolute;
+    align-self: flex-end;
+    margin: 10px;
+
+    /*button visuals*/
+    background-color: whitesmoke;
+    aspect-ratio: 1/1;
+    width: 30px;
+    border: 1px solid black;
+}
+
+/*"animation" for close button*/
+.dayPopUp button:hover{
+    background-color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 810px) {
+    .settings{
+        /*settings mobile visuals*/
+        height: 25px;
+    }
+    .dayContainer{
+        /*dayContainer positions for mobile*/
+        padding-top: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .day{
+        /*what the days look like on mobile*/
+        flex: 0 0 15%; /*4 days per line*/
+        aspect-ratio: 1 / 1; /*height and width are always the same*/
+        height: 50px;
+        margin: 10px;
+    }
+    .settingsPopUp{
+        /*pop up menu for settings mobile config*/
+        height: 500px;
+        max-width: 350px;
+        margin-right: 10px;
+    }
+    .info{
+        /*little text in pop up for version num*/
+        top: 90%;
+    }
 }
