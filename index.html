@@ -23,33 +23,45 @@
         <p id="changeColors">Change colors</p>
         <!--dropdown for change colors-->
         <div class="colorSettings">
-            <p style="align-self: flex-start;">(Insert hex values | Example: #ff0000)</p>
-            <p>Background color: <input><button id="backgroundSubmit">✔️</button></p>
-            <p>Default box color: <input><button id="defaultBoxSubmit">✔️</button></p>
-            <p>100% box color: <input><button id="100BoxSubmit">✔️</button></p>
-            <p>75% box color: <input><button id="75BoxSubmit">✔️</button></p>
-            <p>50% box color: <input><button id="50BoxSubmit">✔️</button></p>
-            <p>25% box color: <input><button id="25BoxSubmit">✔️</button></p>
-            <p>0% box color: <input><button id="0BoxSubmit">✔️</button></p>
+            <p>Background color: <input type="color" id="backgroundColor" value="#ffffff"><button id="backgroundSubmit">✔️</button></p>
+            <p>Border color: <input type="color" id="borderColor" value="#000000"><button id="borderSubmit">✔️</button></p>
+            <p>Future day color: <input type="color" id="futureBoxColor" value="#ffffff"><button id="futureBoxSubmit">✔️</button></p>
+            <p>100% day color: <input type="color" id="box100Color" value="#ffffff"><button id="box100Submit">✔️</button></p>
+            <p>75% box color: <input type="color" id="box75Color" value="#ffffff"><button id="box75Submit">✔️</button></p>
+            <p>50% box color: <input type="color" id="box50Color" value="#ffffff"><button id="box50Submit">✔️</button></p>
+            <p>25% box color: <input type="color" id="box25Color" value="#ffffff"><button id="box25Submit">✔️</button></p>
+            <p>0% box color: <input type="color" id="box0Color" value="#ffffff"><button id="box0Submit">✔️</button></p>
         </div>
         
         <p id="changeView">Change view</p>
         <!--dropdown for change view-->
         <div class="viewSettings">
-            <input type="radio" id="1month" name="viewSettings"> <label for="1month" checked>1 month view</label><br>
-            <input type="radio" id="3month" name="viewSettings"> <label for="3month">3 month view</label><br>
-            <input type="radio" id="6month" name="viewSettings"> <label for="6month">6 month view</label><br>
-            <input type="radio" id="9month" name="viewSettings"> <label for="9month">9 month view</label><br>
-            <input type="radio" id="year" name="viewSettings"> <label for="year">Year view</label><br>
-            <input type="radio" id="ytd" name="viewSettings"> <label for="ytd">Year-to-date view</label><br>
+            <input type="radio" id="1month" name="viewSettings" value="1" checked> <label for="1month">1 month view</label><br>
+            <input type="radio" id="3month" name="viewSettings" value="3"> <label for="3month">3 month view</label><br>
+            <input type="radio" id="6month" name="viewSettings" value="6"> <label for="6month">6 month view</label><br>
+            <input type="radio" id="9month" name="viewSettings" value="9"> <label for="9month">9 month view</label><br>
+            <input type="radio" id="year" name="viewSettings" value="12"> <label for="year">Year view</label><br>
+            <input type="radio" id="ytd" name="viewSettings" value="ytd"> <label for="ytd">Year-to-date view</label><br>
         </div>
 
         <p id="changeFormat">Change date format</p>
         <!--dropdown menu for change format-->
         <div class="formatSettings">
-            <input type="radio" id="dmy" name="formatSettings" checked> <label for="dmy">Day/Month/Year</label><br>
-            <input type="radio" id="mdy" name="formatSettings"> <label for="dmy">Month/Day/Year</label>
+            <input type="radio" id="dmy" name="formatSettings" value="dmy"> <label for="dmy">Day/Month/Year</label><br>
+            <input type="radio" id="mdy" name="formatSettings" value="mdy" checked> <label for="dmy">Month/Day/Year</label>
         </div>
+
+        <p id="miscSettings">Misc. Settings</p>
+        <!--dropdown menu for misc settings-->
+        <div class="miscSettings">
+            <input type="checkbox" id="HR" name="miscSettings" value="HR">
+            <label for="HR">Add horizontal line that splits months</label><br>
+            <input type="checkbox" id="boxSizing" name="miscSettings" value="boxSizing">
+            <label for="boxSizing">Change day size when multiple months are on screen</label><br>
+            <input type="checkbox" id="showDate" name="miscSettings" value="showDate">
+            <label for="showDate">Show date on each day.</label><br>
+        </div>
+
         <!--MAKE DROPDOWN MENU FOR HELP-->
         <p>Help</p>
 
