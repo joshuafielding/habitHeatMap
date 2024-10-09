@@ -14,9 +14,9 @@
     padding: 20px;
 }
 
-.settings img{
-    cursor: pointer; /*make cursor pointer only for the icons in settings*/
-    transition: transform 0.2s; /*addes the animation to icons*/
+.settings img {
+    cursor: pointer; /* Pointer cursor */
+    transition: transform 0.2s; /* Animation */
 }
 
 /*animation for settings*/
@@ -81,6 +81,98 @@
 .settingsPopUp button:hover{
     background-color: rgb(214, 214, 214);
     cursor: pointer;
+}
+
+.taskPopUp{
+    /*taskPopUp positioning*/
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /*taskPopUp visuals*/
+    font-size: 18px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 3px;
+    aspect-ratio: 1/1;
+    width: 400px;
+    visibility: hidden;
+}
+
+/*formatting the text in taskPopUp*/
+.taskPopUp p{
+    margin-left: 10px;
+    cursor: pointer; 
+}
+
+.taskPopUp h3{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.taskPopUp h5{
+    margin-left: 10px;
+}
+
+.taskPopUp input{
+    margin-left: 10px;
+    max-width: 100px;
+    cursor: pointer; 
+}
+
+.taskPopUp select{
+    margin-left: 10px;
+    max-width: 100px;
+    cursor: pointer; 
+}
+
+/*used to close the settings*/
+.taskPopUp #cancelTask{
+    /*button positioning*/
+    position: absolute;
+    align-self: flex-end;
+    margin: 10px;
+
+    /*button visuals*/
+    background-color: whitesmoke;
+    aspect-ratio: 1/1;
+    width: 30px;
+    border: 1px solid black;
+}
+
+/*"animation" for close button*/
+.taskPopUp #cancelTask:hover{
+    background-color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+.taskPopUp #saveTask{
+    /*button position*/
+    margin-top: 10px;
+    margin-bottom: 0px;
+
+    /*button visuals*/
+    background-color: whitesmoke;
+    width: 50px;
+    border: 1px solid black;
+}
+
+/*"animation" for submit button*/
+.taskPopUp #saveTask:hover{
+    background-color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+.repeatSettings{
+    display: none;
+}
+
+.repeatDays{
+    display: inline;
 }
 
 /*dropdown menus in settingsPopUp*/

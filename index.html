@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habitica Heatmap</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="habiticaHeatMap.js"></script>
 </head>
 <body>
     <!--settings header-->
     <div class="settings">
-        <img src="images/back.png" id="prev" alt="Previous month icon">
-        <img src="images/next.png" id="next" alt="Next month icon">
-        <img src="images/settings.png" id="settings" alt="Settings icon">
-    </div>
+        <img src="images/add.png" id="add" alt="Add task">
+        <img src="images/back.png" id="prev" alt="Previous month">
+        <img src="images/next.png" id="next" alt="Next month">
+        <img src="images/settings.png" id="settings" alt="Settings">
+    </div>  
 
     <!--Pop up menu for settings-->
     <div class="settingsPopUp" id="settingsPopUp">
@@ -69,12 +69,72 @@
         <a href="https://github.com/esrexni/habiticaHeatMap" class="info">version 0.1 - JoshF</a>
     </div>
 
+    <!--Pop up menu for task creation-->
+    <div class="taskPopUp" id="taskPopUp" style="visibility: hidden;">
+        <button type="button" id="cancelTask">X</button>
+       
+        <h3>Title:</h3>
+        <input type="text" id="taskTitle" placeholder="Task Title">
+    
+        <h3>Description:</h3>
+        <input id="taskDesc" placeholder="Task Description"></input>
+    
+        <h3>Date:</h3>
+        <input type="date" id="taskDate" value="2024-10-03">
+        
+        <h3 id="openRS" style="cursor: pointer;">Repeat Settings</h3>
+        <div class="repeatSettings" id="repeatSettings">
+            <h5>Repeat every:</h5>
+            <select id="timesper">
+                <option value="na" checked>N/A</option>
+                <option value="one">1</option>
+                <option value="two">2</option>
+                <option value="three">3</option>
+            </select>
+            
+            <select id="wmy">
+                <option value="none" checked>None</option>
+                <option value="weekly">Week</option>
+                <option value="monthly">Month</option>
+                <option value="yearly">Year</option>
+            </select>
+
+
+            <h5>Select Repeat Days:</h5>
+            <div class="repeatDays">
+                <input type="checkbox" id="monday" name="repeatSettings" value="Monday">
+                <label for="monday">Monday</label><br>
+
+                <input type="checkbox" id="tuesday" name="repeatSettings" value="Tuesday">
+                <label for="tuesday">Tuesday</label><br>
+
+                <input type="checkbox" id="wednesday" name="repeatSettings" value="Wednesday">
+                <label for="wednesday">Wednesday</label><br>
+
+                <input type="checkbox" id="thursday" name="repeatSettings" value="Thursday">
+                <label for="thursday">Thursday</label><br>
+
+                <input type="checkbox" id="friday" name="repeatSettings" value="Friday">
+                <label for="friday">Friday</label><br>
+
+                <input type="checkbox" id="saturday" name="repeatSettings" value="Saturday">
+                <label for="saturday">Saturday</label><br>
+
+                <input type="checkbox" id="sunday" name="repeatSettings" value="Sunday">
+                <label for="sunday">Sunday</label><br>
+            </div>
+    </div>
+        <button id="saveTask" style="margin-left: 10px;">Create</button>
+    </div>
+
     <!--Days are stored in this container-->
     <div class="dayContainer"></div>
     <!--Days popup menu-->
     <div class="dayPopUp" id="dayPopUp">
         <button type="button" id="closeDay">X</button>
     </div>
+
+    <script src="habiticaHeatMap.js"></script>
 
 </body>
 </html>

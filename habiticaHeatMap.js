@@ -1,12 +1,12 @@
 //===================================================GLOBAL VARIABLES===================================================
 //gets the date
-const currentDate = new Date();
+const fullDate = new Date();
 //gets the day
-const currentDay = currentDate.getDay() - 1;
+const currentDay = fullDate.getDate() - 1;
 //gets the month from the date (0-11)
-const currentMonth = currentDate.getMonth();
+const currentMonth = fullDate.getMonth();
 //gets the year from the date
-const currentYear = currentDate.getFullYear();
+const currentYear = fullDate.getFullYear();
 //user selected month (0-11)
 let selectedMonth = Number(currentMonth); 
 //user selected year
@@ -19,7 +19,7 @@ let borderColor = "#000000";
 const dayContainer = document.querySelector(".dayContainer");
 
 //color variables used for changing background color for days... not working as expected fix later.
-let futureColor = "#000000";
+let futureColor = "#ffffff";
 let hundredColor = "#00ff00";
 let seventyFiveColor = "#b0c800";
 let fiftyColor = "#d79f00";
@@ -45,7 +45,7 @@ if(view == "ytd"){
     addDayClickListeners();
 }
 
-//===================================================DAY CREATION / DELETION AND VIEW MANAGER===================================================
+//================================DAY CREATION / DELETION, VIEW MANAGER, AND TASK CREATION===================================
 //function to find how many days in a month
 function daysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
@@ -89,29 +89,31 @@ function createDays(monthPassed, selectedYear, numMonths) {
             dayDiv.style.flex = flex;
             dayDiv.style.borderColor = borderColor;
             
-            //value dependent on if it's in the future or not. CURRENTLY ISN'T WORKING??
-            if(selectedYear > currentYear ){
+            //value dependent on if it's in the future or not.
+            if(indexYear > currentYear ||  indexYear == currentYear && indexMonth > currentMonth || indexYear == currentYear && indexMonth == currentMonth && day > currentDay){
                 dayDiv.dataset.value = "future";
-                dayDiv.style.backgroundcolor = futureColor;
-            }else if(selectedYear == currentYear && selectedMonth > currentMonth){
-                dayDiv.dataset.value = "future";
-                dayDiv.style.backgroundcolor = futureColor;
-            }else if(selectedYear == currentYear && selectedMonth == currentMonth && day > currentDay){
-                dayDiv.dataset.value = "future";
-                dayDiv.style.backgroundcolor = futureColor;
-            }else{
-                dayDiv.dataset.value = "100%";
-                dayDiv.style.backgroundcolor = hundredColor;
+                dayDiv.style.backgroundColor = futureColor;
             }
-            console.log(dayDiv.dataset.value);
+            //current day should depend on how many tasks have been completed.
+            else if(indexYear == currentYear && indexMonth == currentMonth && day == currentDay){
+                dayDiv.dataset.value = "future";
+                dayDiv.style.backgroundColor = "#904130"; //placeholder for current day color, should be based off percentages
+            }
+            //else it's in the past
+            else{
+                dayDiv.dataset.value = "100%";
+                dayDiv.style.backgroundColor = hundredColor;
+            }
+            console.log("day = " + day + " currentDay = " + currentDay);
+
             //if user wants the date on the day boxes, add text content
             if(document.getElementById("showDate").checked){
                 //make text content the correct date formatting based on user selection
                 if(dateFormat == "dmy"){
                     dayDiv.textContent = dayDiv.id;
                 }else{
-                    let test = dayDiv.id.split("/");
-                    dayDiv.textContent = test[1] + "/" + test[0] + "/" + test[2];
+                    let formattedDateArray = dayDiv.id.split("/");
+                    dayDiv.textContent = formattedDateArray[1] + "/" + formattedDateArray[0] + "/" + formattedDateArray[2];
                 }
             }
             dayDiv.style.fontSize = fontsize;
@@ -133,7 +135,6 @@ function createDays(monthPassed, selectedYear, numMonths) {
 //change days onscreen
 function dayChanger(numMonths, nextOrPrev) {
     // Calculate the new month index based on direction
-    console.log(numMonths + "numMonths in daychanger")
     if (nextOrPrev === "next") {
         selectedMonth += Number(numMonths); //for some reason it was doing a string addition, needed to typecast.
     } else if (nextOrPrev === "prev") {
@@ -143,7 +144,6 @@ function dayChanger(numMonths, nextOrPrev) {
         selectedMonth -= numMonths;
         numMonths++;
     }
-    console.log(numMonths + " numMonths in daychanger after")
 
     // Adjust the year based on overflow or underflow
     while (selectedMonth >= 12) {
@@ -202,7 +202,7 @@ function removeElementsByClass(className) {
 
 //tracks what the previous id was
 let prevID = 0;
-//allows us to append information to the day popUp
+//allows us to append information to the daypopUp
 function addDayClickListeners() {
     let days = document.getElementsByClassName("day");
     for (let i = 0; i < days.length; i++) {
@@ -399,6 +399,28 @@ document.getElementById('box25Submit').addEventListener('click', function() {
 
 document.getElementById('box0Submit').addEventListener('click', function() {
     zeroColor = document.getElementById('box0Color').value;
-    console.log(zeroColor);
     dayChanger(view, "");
 });
+
+//===================================================TASK CREATION===================================================
+
+//show the task creation prompt when plus icon is clicked or close it if it's visible
+document.getElementById('add').onclick = function() {
+    if(document.getElementById('taskPopUp').style.visibility == 'visible'){
+        document.getElementById('taskPopUp').style.visibility = 'hidden';
+    }
+    else{
+        document.getElementById('taskPopUp').style.visibility = 'visible';
+    }
+    
+};
+
+//close the task creation prompt
+document.getElementById('cancelTask').onclick = function() {
+    document.getElementById('taskPopUp').style.visibility = 'hidden';
+};
+
+//show the task creation prompt when plus icon is clicked or close it if it's visible
+document.getElementById('openRS').onclick = function() {
+    toggleDisplayByClass('repeatSettings', 'inline'); // Use 'inline' as display type for this specific dropdown
+};
