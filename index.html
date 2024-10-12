@@ -77,52 +77,50 @@
         <input type="text" id="taskTitle" placeholder="Task Title">
     
         <h3>Description:</h3>
-        <input id="taskDesc" placeholder="Task Description"></input>
+        <input type="text" id="taskDesc" placeholder="Task Description"></input>
     
         <h3>Date:</h3>
-        <input type="date" id="taskDate" value="2024-10-03">
+        <input type="date" id="taskDate">
         
         <h3 id="openRS" style="cursor: pointer;">Repeat Settings</h3>
         <div class="repeatSettings" id="repeatSettings">
             <h5>Repeat every:</h5>
             <select id="timesper">
                 <option value="na" checked>N/A</option>
-                <option value="one">1</option>
-                <option value="two">2</option>
-                <option value="three">3</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
             </select>
             
             <select id="wmy">
                 <option value="none" checked>None</option>
-                <option value="weekly">Week</option>
-                <option value="monthly">Month</option>
-                <option value="yearly">Year</option>
+                <option value="weekly">Week(s)</option>
+                <option value="monthly">Month(s)</option>
+                <option value="yearly">Year(s)</option>
             </select>
 
 
             <h5>Select Repeat Days:</h5>
-            <div class="repeatDays">
-                <input type="checkbox" id="monday" name="repeatSettings" value="Monday">
-                <label for="monday">Monday</label><br>
+            <input type="checkbox" id="monday" name="repeatSettings" value="Monday" class="repeatDays">
+            <label for="monday">Monday</label><br>
 
-                <input type="checkbox" id="tuesday" name="repeatSettings" value="Tuesday">
-                <label for="tuesday">Tuesday</label><br>
+            <input type="checkbox" id="tuesday" name="repeatSettings" value="Tuesday" class="repeatDays">
+            <label for="tuesday">Tuesday</label><br>
 
-                <input type="checkbox" id="wednesday" name="repeatSettings" value="Wednesday">
-                <label for="wednesday">Wednesday</label><br>
+            <input type="checkbox" id="wednesday" name="repeatSettings" value="Wednesday" class="repeatDays">
+            <label for="wednesday">Wednesday</label><br>
 
-                <input type="checkbox" id="thursday" name="repeatSettings" value="Thursday">
-                <label for="thursday">Thursday</label><br>
+            <input type="checkbox" id="thursday" name="repeatSettings" value="Thursday" class="repeatDays">
+            <label for="thursday">Thursday</label><br>
 
-                <input type="checkbox" id="friday" name="repeatSettings" value="Friday">
-                <label for="friday">Friday</label><br>
+            <input type="checkbox" id="friday" name="repeatSettings" value="Friday" class="repeatDays">
+            <label for="friday">Friday</label><br>
 
-                <input type="checkbox" id="saturday" name="repeatSettings" value="Saturday">
-                <label for="saturday">Saturday</label><br>
+            <input type="checkbox" id="saturday" name="repeatSettings" value="Saturday" class="repeatDays">
+            <label for="saturday">Saturday</label><br>
 
-                <input type="checkbox" id="sunday" name="repeatSettings" value="Sunday">
-                <label for="sunday">Sunday</label><br>
-            </div>
+            <input type="checkbox" id="sunday" name="repeatSettings" value="Sunday" class="repeatDays">
+            <label for="sunday">Sunday</label><br>
     </div>
         <button id="saveTask" style="margin-left: 10px;">Create</button>
     </div>

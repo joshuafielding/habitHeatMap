@@ -42,8 +42,23 @@ if(view == "ytd"){
 }else{
     //show current month on screen when loading in. 
     createDays(selectedMonth, selectedYear, view);
-    addDayClickListeners();
 }
+
+//array of all tasks
+let taskArray = [];
+
+//in order to save tasks we use local storage
+const storedTasks = localStorage.getItem('tasks');
+
+//if tasks are stored, retrieve them. 
+if (storedTasks) {
+    taskArray = JSON.parse(storedTasks); // Convert back to an array of objects
+}
+else{
+    taskArray = [];
+}
+
+console.log(taskArray);
 
 //================================DAY CREATION / DELETION, VIEW MANAGER, AND TASK CREATION===================================
 //function to find how many days in a month
@@ -56,7 +71,6 @@ function createDays(monthPassed, selectedYear, numMonths) {
     // Controls how big the boxes are
     let flex;
     let fontsize = "30px";
-    console.log(numMonths + " = numMonths being passed into creatDays function.");
    
     //changes what days look like depending on if the user selected it in misc settings
     if(document.getElementById("boxSizing").checked){
@@ -104,7 +118,6 @@ function createDays(monthPassed, selectedYear, numMonths) {
                 dayDiv.dataset.value = "100%";
                 dayDiv.style.backgroundColor = hundredColor;
             }
-            console.log("day = " + day + " currentDay = " + currentDay);
 
             //if user wants the date on the day boxes, add text content
             if(document.getElementById("showDate").checked){
@@ -130,6 +143,7 @@ function createDays(monthPassed, selectedYear, numMonths) {
             dayContainer.appendChild(monthSplitLine);
         }
     }
+    addDayClickListeners();
 }
 
 //change days onscreen
@@ -156,8 +170,6 @@ function dayChanger(numMonths, nextOrPrev) {
         selectedMonth += 12; // Wrap around to 0-11
     }
 
-    console.log(`Selected Month: ${selectedMonth + 1}, Selected Year: ${selectedYear}`); // Output for verification
-
     // Clear the current days and create new ones
     removeElementsByClass("dayContainer");
     //create days based off of these arguments.
@@ -167,7 +179,6 @@ function dayChanger(numMonths, nextOrPrev) {
     if(nextOrPrev === "ytd"){
         selectedMonth = prevSelectedMonth;
     }
-    addDayClickListeners();
 }
 
 //next arrow on the header
@@ -228,7 +239,7 @@ function addDayClickListeners() {
                 date.id = days[i].id + "date";
                 date.className = "dayPopUpText";
 
-                //format the date based off of what is currently selected.
+                //format the date based off of what is currently selected
                 if (dateFormat === "dmy") {
                     date.textContent = days[i].id;
                 }
@@ -237,9 +248,42 @@ function addDayClickListeners() {
                     date.textContent = parts[1] + "/" + parts[0] + "/" + parts[2];
                 }
                 
-                //append date to the popup.
+                //append date to the popup
                 dayPopUp.appendChild(date); 
 
+                //append task to the popup
+                for (let k = 0; k < taskArray.length; k++) {
+                    if (taskArray[k].date == days[i].id) {
+                        let newTask = document.createElement("p");
+                        newTask.className = "dayPopUpText";
+                        newTask.id = taskArray[k].title;
+                
+                        //create checkbox
+                        let checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.checked = taskArray[k].completed; // Set checked status based on completion
+                
+                        //event listener to update the completed status when the checkbox is clicked
+                        checkbox.addEventListener('change', function() {
+                            //update completed status in the taskArray
+                            taskArray[k].completed = this.checked;
+
+                            //save the updated taskArray to local storage
+                            localStorage.setItem('tasks', JSON.stringify(taskArray));
+                        });
+                
+                        //append checkbox
+                        newTask.appendChild(checkbox);
+                        
+                        //text node to ensure it doesn't erase any text
+                        let taskText = document.createTextNode(" " + taskArray[k].title + " - " + taskArray[k].desc);
+                        newTask.appendChild(taskText); //append the text node
+                
+                        //append the new task element to the dayPopUp
+                        dayPopUp.appendChild(newTask);
+                    }
+                }
+                
                 //save id of currently selected day. This is used to close the day if it's clicked again.
                 prevID = days[i].id;
             }
@@ -271,9 +315,6 @@ function toggleDisplayByClass(className, displayType = 'block') {
 
 // When the gear icon is clicked, show/hide settings popup
 document.getElementById('settings').onclick = function() {
-    if(document.getElementById('dayPopUp').style.visibility === "visible"){
-        document.getElementById('dayPopUp').style.visibility = "hidden";
-    }
     toggleVisibilityById('settingsPopUp');
 }
 
@@ -402,18 +443,12 @@ document.getElementById('box0Submit').addEventListener('click', function() {
     dayChanger(view, "");
 });
 
-//===================================================TASK CREATION===================================================
+//===================================================TASK CREATION AND SAVING===================================================
 
-//show the task creation prompt when plus icon is clicked or close it if it's visible
+// When the add task icon is clicked, show/hide task popup
 document.getElementById('add').onclick = function() {
-    if(document.getElementById('taskPopUp').style.visibility == 'visible'){
-        document.getElementById('taskPopUp').style.visibility = 'hidden';
-    }
-    else{
-        document.getElementById('taskPopUp').style.visibility = 'visible';
-    }
-    
-};
+    toggleVisibilityById('taskPopUp');
+}
 
 //close the task creation prompt
 document.getElementById('cancelTask').onclick = function() {
@@ -424,3 +459,56 @@ document.getElementById('cancelTask').onclick = function() {
 document.getElementById('openRS').onclick = function() {
     toggleDisplayByClass('repeatSettings', 'inline'); // Use 'inline' as display type for this specific dropdown
 };
+
+//function that triggers task creation
+document.getElementById('saveTask').onclick = function() {
+    let title = document.getElementById('taskTitle').value;
+    let desc = document.getElementById('taskDesc').value;
+    let date = document.getElementById('taskDate').value;
+    let parts = date.split("-");
+    
+    //format date to match id of days
+    if (parts[1].startsWith("0")) {
+        parts[1] = parts[1].replace(/^0/, '');
+    }
+    if (parts[2].startsWith("0")) {
+        parts[2] = parts[2].replace(/^0/, '');
+    }
+    
+    date = parts[2] + "/" + parts[1] + "/" + parts[0];
+
+    let repeatFreq = document.getElementById('timesper').value;
+    let repeatType = document.getElementById('wmy').value;
+
+    //add all the days from the repeat days checkbox
+    let days = document.getElementsByName('repeatSettings');
+    let repeatDays = "";
+    for (var i = 0; i < days.length; i++) {
+        if (days[i].checked) {
+            repeatDays += days[i].value;
+        }
+    }
+
+    //create task using constructor
+    let test = new task(title, desc, date, repeatFreq, repeatType, repeatDays);
+    //store it in taskArray
+    taskArray.push(test);
+    //save the updated taskArray to local storage
+    localStorage.setItem('tasks', JSON.stringify(taskArray));
+
+    //refresh dates
+    createDays(selectedMonth, selectedYear, view);
+}
+
+//task constructor
+class task {
+    constructor(title, desc, date, repeatFreq, repeatType, repeatDays) {
+        this.title = title;
+        this.desc = desc;
+        this.date = date;
+        this.repeatFreq = repeatFreq;
+        this.repeatType = repeatType;
+        this.repeatDays = repeatDays;
+        this.completed = false;
+    }
+}
