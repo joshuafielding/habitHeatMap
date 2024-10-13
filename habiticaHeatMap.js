@@ -66,6 +66,14 @@ function daysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
 }
 
+//function to find what day of the week is being created.
+function findDayName(day, month, year){
+    const date = new Date(year, month - 1, day);
+    const dayNames = ["due to +1, we won't get this", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    return dayNames[date.getDay()+1]; //get the day of the week as a name
+}
+
+
 // Create and append day divs inside the existing container
 function createDays(monthPassed, selectedYear, numMonths) {
     // Controls how big the boxes are
@@ -103,6 +111,11 @@ function createDays(monthPassed, selectedYear, numMonths) {
             dayDiv.style.flex = flex;
             dayDiv.style.borderColor = borderColor;
             
+            //find what day of the week this day will be:
+            dayName = findDayName(day, indexMonth+1, indexYear);
+            dayDiv.setAttribute("data-dayname", dayName);
+            console.log(dayDiv.getAttribute("data-dayname"));
+
             //value dependent on if it's in the future or not.
             if(indexYear > currentYear ||  indexYear == currentYear && indexMonth > currentMonth || indexYear == currentYear && indexMonth == currentMonth && day > currentDay){
                 dayDiv.dataset.value = "future";
@@ -253,7 +266,7 @@ function addDayClickListeners() {
 
                 //append task to the popup
                 for (let k = 0; k < taskArray.length; k++) {
-                    if (taskArray[k].date == days[i].id) {
+                    if (taskArray[k].date == days[i].id || taskArray[k].repeatDays.includes(days[i].getAttribute("data-dayname"))) {
                         let newTask = document.createElement("p");
                         newTask.className = "dayPopUpText";
                         newTask.id = taskArray[k].title;
