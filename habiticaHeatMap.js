@@ -73,10 +73,16 @@ function findDayName(day, month, year){
     return dayNames[date.getDay()+1]; //get the day of the week as a name
 }
 
+//function to convert "dd/mm/yyyy" to a Date object
+function convertToDate(dateStr) {
+    let parts = dateStr.split('/');
+    // Create new Date object (Year, Month (0-indexed), Day)
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+}
 
-// Create and append day divs inside the existing container
+//create and append day divs inside the existing container
 function createDays(monthPassed, selectedYear, numMonths) {
-    // Controls how big the boxes are
+    //controls how big the boxes are
     let flex;
     let fontsize = "30px";
    
@@ -114,7 +120,6 @@ function createDays(monthPassed, selectedYear, numMonths) {
             //find what day of the week this day will be:
             dayName = findDayName(day, indexMonth+1, indexYear);
             dayDiv.setAttribute("data-dayname", dayName);
-            console.log(dayDiv.getAttribute("data-dayname"));
 
             //value dependent on if it's in the future or not.
             if(indexYear > currentYear ||  indexYear == currentYear && indexMonth > currentMonth || indexYear == currentYear && indexMonth == currentMonth && day > currentDay){
@@ -266,7 +271,31 @@ function addDayClickListeners() {
 
                 //append task to the popup
                 for (let k = 0; k < taskArray.length; k++) {
-                    if (taskArray[k].date == days[i].id || taskArray[k].repeatDays.includes(days[i].getAttribute("data-dayname"))) {
+                    
+                    //freqMult is used to multiply the date. it is equal to the amount of microseconds needed for a day * the frequency. 
+                    let freqMult = taskArray[k].repeatFreq * 24 * 60 * 60 * 1000;
+                    //This differentiates the repeat types from each other.
+                    //if we repeat by weeks, we make it 7 * freqMult because freqmult = how many weeks/months/years to do something
+                    if(taskArray[k].repeatType == "weekly"){
+                        freqMult *= 7;
+                    }
+                    //lengthUntilEnd is used to find how many weeks a task should repeat.
+                    let numWeeks = (convertToDate(taskArray[k].repeatUntil) - convertToDate(taskArray[k].date)) / (7 * 1000 * 60 * 60 * 24);;
+                    let isValidFreqAway = false;
+                    for(let q = 1; q < numWeeks+1; q++){
+                        //this is the new date made in every loop in microseconds
+                        let newDate = new Date(convertToDate(taskArray[k].date).getTime() + (freqMult * q));
+                        //if this newdate % the date we clicked == 0, that means it's however many days away for the frequency to be correct!.
+                        if(newDate % convertToDate(days[i].id).getTime() == 0){
+                            isValidFreqAway = true;
+                        }
+                    }
+
+                    //if the task date == the date OR if it's a repeat task that matches the day of the week 
+                    //AND also is ahead of the date it was set on AND also is not ahead of the repeatUntil date AND isValidFreqAway is true.
+                    if (taskArray[k].date == days[i].id || 
+                        (taskArray[k].repeatDays.includes(days[i].getAttribute("data-dayname")) && convertToDate(taskArray[k].date) < convertToDate(days[i].id)
+                    && convertToDate(taskArray[k].repeatUntil).getTime() >= convertToDate(days[i].id).getTime() & isValidFreqAway == true)) {
                         let newTask = document.createElement("p");
                         newTask.className = "dayPopUpText";
                         newTask.id = taskArray[k].title;
@@ -478,8 +507,9 @@ document.getElementById('saveTask').onclick = function() {
     let title = document.getElementById('taskTitle').value;
     let desc = document.getElementById('taskDesc').value;
     let date = document.getElementById('taskDate').value;
-    let parts = date.split("-");
+    let repeatUntil = document.getElementById('repeatTill').value;
     
+    let parts = date.split("-");
     //format date to match id of days
     if (parts[1].startsWith("0")) {
         parts[1] = parts[1].replace(/^0/, '');
@@ -489,6 +519,17 @@ document.getElementById('saveTask').onclick = function() {
     }
     
     date = parts[2] + "/" + parts[1] + "/" + parts[0];
+
+    let parts2 = repeatUntil.split("-");
+    //format repeatUntil to match id of days
+    if (parts2[1].startsWith("0")) {
+        parts2[1] = parts2[1].replace(/^0/, '');
+    }
+    if (parts2[2].startsWith("0")) {
+        parts2[2] = parts2[2].replace(/^0/, '');
+    }
+    
+    repeatUntil = parts2[2] + "/" + parts2[1] + "/" + parts2[0];
 
     let repeatFreq = document.getElementById('timesper').value;
     let repeatType = document.getElementById('wmy').value;
@@ -503,19 +544,16 @@ document.getElementById('saveTask').onclick = function() {
     }
 
     //create task using constructor
-    let test = new task(title, desc, date, repeatFreq, repeatType, repeatDays);
+    let test = new task(title, desc, date, repeatFreq, repeatType, repeatDays, repeatUntil);
     //store it in taskArray
     taskArray.push(test);
     //save the updated taskArray to local storage
     localStorage.setItem('tasks', JSON.stringify(taskArray));
-
-    //refresh dates
-    createDays(selectedMonth, selectedYear, view);
 }
 
 //task constructor
 class task {
-    constructor(title, desc, date, repeatFreq, repeatType, repeatDays) {
+    constructor(title, desc, date, repeatFreq, repeatType, repeatDays, repeatUntil) {
         this.title = title;
         this.desc = desc;
         this.date = date;
@@ -523,5 +561,6 @@ class task {
         this.repeatType = repeatType;
         this.repeatDays = repeatDays;
         this.completed = false;
+        this.repeatUntil = repeatUntil;
     }
 }
